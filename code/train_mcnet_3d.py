@@ -55,7 +55,7 @@ num_classes = 2
 if args.dataset_name == "LA":
     patch_size = (112, 112, 80)
     args.root_path = args.root_path+'data/LA'
-    args.max_samples = 80
+    args.max_samples = 76
 elif args.dataset_name == "Pancreas_CT":
     patch_size = (96, 96, 96)
     args.root_path = args.root_path+'data/Pancreas'
