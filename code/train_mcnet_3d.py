@@ -31,7 +31,7 @@ def sharpening(P):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset_name', type=str,  default='LA', help='dataset_name')
-parser.add_argument('--root_path', type=str, default='./', help='Name of Dataset')
+parser.add_argument('--root_path', type=str, default='../', help='Name of Dataset')
 parser.add_argument('--exp', type=str,  default='MCNet', help='exp_name')
 parser.add_argument('--model', type=str,  default='mcnet3d_v1', help='model_name')
 parser.add_argument('--max_iteration', type=int,  default=15000, help='maximum iteration to train')
