@@ -160,7 +160,7 @@ if __name__ == "__main__":
             iter_num = iter_num + 1
             consistency_weight = get_current_consistency_weight(iter_num//150)
             
-            loss = args.lamda * loss_seg_dice + consistency_weight * loss_consist
+            loss = args.lamda * loss_seg_dice + consistency_weight * loss_consist.cuda()
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
