@@ -26,7 +26,7 @@ if FLAGS.dataset_name == "LA":
     FLAGS.root_path = FLAGS.root_path + 'data/LA'
     with open(FLAGS.root_path + '/test.list', 'r') as f:
         image_list = f.readlines()
-    image_list = [FLAGS.root_path + "/2018LA_Seg_Training Set/" + item.replace('\n', '') + "/mri_norm2.h5" for item in image_list]
+    image_list = [FLAGS.root_path + "/2018LA_Seg_Training Set/" + item.replace('\n', '') + "/mra_norm.h5" for item in image_list]
 
 elif FLAGS.dataset_name == "Pancreas_CT":
     patch_size = (96, 96, 96)
