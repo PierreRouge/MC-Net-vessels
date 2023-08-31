@@ -1,5 +1,6 @@
 from networks.unet import UNet, MCNet2d_v1, MCNet2d_v2, MCNet2d_v3
 from networks.VNet import VNet, MCNet3d_v1, MCNet3d_v2
+from networks.Unet import TinyUnet
 
 def net_factory(net_type="unet", in_chns=1, class_num=4, mode = "train"):
     if net_type == "unet":
@@ -22,4 +23,9 @@ def net_factory(net_type="unet", in_chns=1, class_num=4, mode = "train"):
         net = MCNet3d_v1(n_channels=in_chns, n_classes=class_num, normalization='batchnorm', has_dropout=False).cuda()
     elif net_type == "mcnet3d_v2" and mode == "test":
         net = MCNet3d_v2(n_channels=in_chns, n_classes=class_num, normalization='batchnorm', has_dropout=False).cuda()
+    elif net_type == 'mcnet3d_vessels':
+        features = (32, 64, 128, 256)
+        kernel_size = (3, 3, 3, 3)
+        strides = (1, 2, 2, 2)
+        net = TinyUnet(dim=3, in_channel=in_chns, features=features, strides=strides, kernel_size=kernel_size, nclasses=class_num)
     return net
