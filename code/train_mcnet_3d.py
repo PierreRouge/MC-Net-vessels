@@ -167,7 +167,7 @@ if __name__ == "__main__":
                         loss_consist += consistency_criterion(y_ori[i], y_pseudo_label[j])
             
             iter_num = iter_num + 1
-            consistency_weight = get_current_consistency_weight(iter_num//150)
+            consistency_weight = get_current_consistency_weight(iter_num//21)  #21 because there are 21 iterations per epoch
             
             loss = args.lamda * loss_seg_dice + consistency_weight * loss_consist.cuda()
             optimizer.zero_grad()
