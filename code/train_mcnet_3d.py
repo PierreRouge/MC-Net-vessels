@@ -33,7 +33,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--dataset_name', type=str,  default='LA', help='dataset_name')
 parser.add_argument('--root_path', type=str, default='../', help='Name of Dataset')
 parser.add_argument('--exp', type=str,  default='MCNet', help='exp_name')
-parser.add_argument('--model', type=str,  default='mcnet3d_v1', help='model_name')
+parser.add_argument('--model', type=str,  default='mcnet3d_vessels', help='model_name')
 parser.add_argument('--max_iteration', type=int,  default=15000, help='maximum iteration to train')
 parser.add_argument('--max_samples', type=int,  default=76, help='maximum samples to train')
 parser.add_argument('--labeled_bs', type=int, default=2, help='batch_size of labeled data per gpu')
@@ -45,6 +45,8 @@ parser.add_argument('--seed', type=int,  default=1337, help='random seed')
 parser.add_argument('--gpu', type=str,  default='0', help='GPU to use')
 parser.add_argument('--consistency', type=float, default=1, help='consistency_weight')
 parser.add_argument('--consistency_rampup', type=float, default=40.0, help='consistency_rampup')
+parser.add_argument('--consistency_type', type=str,
+                    default="mse", help='consistency_type')
 parser.add_argument('--temperature', type=float, default=0.1, help='temperature of sharpening')
 parser.add_argument('--lamda', type=float, default=0.5, help='weight to balance all losses')
 args = parser.parse_args()
@@ -118,7 +120,14 @@ if __name__ == "__main__":
 
     writer = SummaryWriter(snapshot_path+'/log')
     logging.info("{} itertations per epoch".format(len(trainloader)))
-    consistency_criterion = losses.mse_loss
+    
+    if args.consistency_type == 'mse':
+        consistency_criterion = losses.mse_loss
+    elif args.consistency_type == 'dice':
+        consistency_criterion = losses.Binary_dice_loss
+    else:
+        assert False, args.consistency_type
+        
     dice_loss = losses.Binary_dice_loss
     iter_num = 0
     best_dice = 0
