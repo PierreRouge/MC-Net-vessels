@@ -42,7 +42,7 @@ print(test_save_path)
 def test_calculate_metric():
     
     net = net_factory(net_type='vnet', in_chns=1, class_num=num_classes, mode="test")
-    save_mode_path = os.path.join(snapshot_path, '{}_best_model.pth'.format(FLAGS.model))
+    save_mode_path = os.path.join(snapshot_path, 'iter_15000.pth')
     net.load_state_dict(torch.load(save_mode_path), strict=False)
     print("init weight from {}".format(save_mode_path))
     net.eval()

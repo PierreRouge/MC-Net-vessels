@@ -48,7 +48,7 @@ parser.add_argument('--consistency_rampup', type=float, default=40.0, help='cons
 parser.add_argument('--consistency_type', type=str,
                     default="mse", help='consistency_type')
 parser.add_argument('--temperature', type=float, default=0.1, help='temperature of sharpening')
-parser.add_argument('--lamda', type=float, default=0.5, help='weight to balance all losses')
+parser.add_argument('--lamda', type=float, default=1.0, help='weight to balance all losses')
 args = parser.parse_args()
 
 snapshot_path = args.root_path + "model/{}_{}_{}_labeled/{}".format(args.dataset_name, args.exp, args.labelnum, args.model)
