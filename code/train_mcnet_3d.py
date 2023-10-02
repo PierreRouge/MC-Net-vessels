@@ -35,12 +35,12 @@ parser.add_argument('--root_path', type=str, default='../', help='Name of Datase
 parser.add_argument('--exp', type=str,  default='MCNet', help='exp_name')
 parser.add_argument('--model', type=str,  default='mcnet3d_vessels', help='model_name')
 parser.add_argument('--max_iteration', type=int,  default=15000, help='maximum iteration to train')
-parser.add_argument('--max_samples', type=int,  default=76, help='maximum samples to train')
+parser.add_argument('--max_samples', type=int,  default=350, help='maximum samples to train')
 parser.add_argument('--labeled_bs', type=int, default=2, help='batch_size of labeled data per gpu')
 parser.add_argument('--batch_size', type=int, default=4, help='batch_size of labeled data per gpu')
 parser.add_argument('--base_lr', type=float,  default=0.01, help='maximum epoch number to train')
 parser.add_argument('--deterministic', type=int,  default=1, help='whether use deterministic training')
-parser.add_argument('--labelnum', type=int,  default=42, help='trained samples')
+parser.add_argument('--labelnum', type=int,  default=34, help='trained samples')
 parser.add_argument('--seed', type=int,  default=1337, help='random seed')
 parser.add_argument('--gpu', type=str,  default='0', help='GPU to use')
 parser.add_argument('--consistency', type=float, default=1, help='consistency_weight')
@@ -57,7 +57,11 @@ num_classes = 2
 if args.dataset_name == "LA":
     patch_size = (128, 128, 128)
     args.root_path = args.root_path+'data/LA'
-    args.max_samples = 76
+    args.max_samples = 350
+elif args.dataset_name == "IXI":
+    patch_size = (128, 128, 128)
+    args.root_path = args.root_path+'../data/IXI_Bullitt_training_set'
+    args.max_samples = 350
 elif args.dataset_name == "Pancreas_CT":
     patch_size = (96, 96, 96)
     args.root_path = args.root_path+'data/Pancreas'
@@ -93,6 +97,14 @@ if __name__ == "__main__":
     
     model = net_factory(net_type=args.model, in_chns=1, class_num=num_classes, mode="train")
     if args.dataset_name == "LA":
+        db_train = LAHeart(base_dir=train_data_path,
+                        split='train',
+                        transform = transforms.Compose([
+                            RandomRotFlip(),
+                            RandomCrop(patch_size),
+                            ToTensor(),
+                            ]))
+    elif args.dataset_name == "IXI":
         db_train = LAHeart(base_dir=train_data_path,
                         split='train',
                         transform = transforms.Compose([
