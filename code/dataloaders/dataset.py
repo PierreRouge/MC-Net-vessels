@@ -91,8 +91,8 @@ class LAHeart(Dataset):
         self.transform = transform
         self.sample_list = []
 
-        train_path = self._base_dir+'/train.list'
-        test_path = self._base_dir+'/test.list'
+        train_path = self._base_dir+'/../train.list'
+        test_path = self._base_dir+'/../test.list'
 
         if split=='train':
             with open(train_path, 'r') as f:
@@ -111,7 +111,7 @@ class LAHeart(Dataset):
 
     def __getitem__(self, idx):
         image_name = self.image_list[idx]
-        h5f = h5py.File(self._base_dir + "/2018LA_Seg_Training Set/" + image_name + "/mra_norm.h5", 'r')
+        h5f = h5py.File(self._base_dir + "/IXI_Bullitt_training_set/" + image_name + "/mra_norm.h5", 'r')
         image = h5f['image'][:]
         label = h5f['label'][:]
         sample = {'image': image, 'label': label, 'image_name': image_name}

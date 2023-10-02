@@ -30,7 +30,7 @@ def sharpening(P):
     return P_sharpen
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dataset_name', type=str,  default='LA', help='dataset_name')
+parser.add_argument('--dataset_name', type=str,  default='IXI', help='dataset_name')
 parser.add_argument('--root_path', type=str, default='../', help='Name of Dataset')
 parser.add_argument('--exp', type=str,  default='MCNet', help='exp_name')
 parser.add_argument('--model', type=str,  default='mcnet3d_vessels', help='model_name')
