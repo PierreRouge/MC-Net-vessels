@@ -30,7 +30,7 @@ if FLAGS.dataset_name == "LA":
     
 elif FLAGS.dataset_name == "IXI":
     patch_size = (128, 128, 128)
-    FLAGS.root_path = FLAGS.root_path + '../data/LA'
+    FLAGS.root_path = FLAGS.root_path + '../data'
     with open(FLAGS.root_path + '/test.list', 'r') as f:
         image_list = f.readlines()
     image_list = [FLAGS.root_path + "/IXI_Bullitt_training_set/" + item.replace('\n', '') + "/mra_norm.h5" for item in image_list]
