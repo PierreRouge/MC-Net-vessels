@@ -227,6 +227,8 @@ if __name__ == "__main__":
                     dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=18, stride_z=4, dataset_name = 'LA')
                 elif args.dataset_name =="Pancreas_CT":
                     dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=16, stride_z=16, dataset_name = 'Pancreas_CT')
+                elif args.dataset_name =="IXI":
+                    dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=18, stride_z=4, dataset_name = 'IXI')
                 if dice_sample > best_dice:
                     best_dice = dice_sample
                     save_mode_path = os.path.join(snapshot_path,  'iter_{}_dice_{}.pth'.format(iter_num, best_dice))
