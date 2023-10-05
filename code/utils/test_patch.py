@@ -26,7 +26,7 @@ def var_all_case(model, num_classes, patch_size=(112, 112, 80), stride_xy=18, st
     elif dataset_name == "IXI":
         with open('../../data/test.list', 'r') as f:
             image_list = f.readlines()
-        image_list = ["../../data/IXI_Bullitt_training_set/" + item.replace('\n', '') + "_norm.h5" for item in image_list]
+        image_list = ["../../data/IXI_Bullitt_training_set/" + item.replace('\n', '') + "/mra_norm.h5" for item in image_list]
     loader = tqdm(image_list)
     total_dice = 0.0
     for image_path in loader:
