@@ -221,7 +221,7 @@ if __name__ == "__main__":
                     snapshot_img[:, 2, begin*H+ begin*ins_width:end*H+ begin*ins_width,:W] = y_ori[idx][labeled_bs:][0,1].permute(2,0,1)
                 writer.add_images('Epoch_%d_Iter_%d_unlabel'% (epoch_num, iter_num), snapshot_img)
                 
-            if iter_num >= 100 and iter_num % 100 == 0:
+            if iter_num >= 8000 and iter_num % 8000 == 0:
                 model.eval()
                 if args.dataset_name =="LA":
                     dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=18, stride_z=4, dataset_name = 'LA')
