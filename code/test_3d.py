@@ -64,6 +64,11 @@ def test_calculate_metric():
                         patch_size=(96, 96, 96), stride_xy=16, stride_z=16,
                         save_result=True, test_save_path=test_save_path,
                         metric_detail=FLAGS.detail, nms=FLAGS.nms)
+    elif FLAGS.dataset_name == "IXI":
+        avg_metric = test_all_case(FLAGS.model, 1, net, image_list, num_classes=num_classes,
+                        patch_size=(128, 128, 128), stride_xy=18, stride_z=4,
+                        save_result=True, test_save_path=test_save_path,
+                        metric_detail=FLAGS.detail, nms=FLAGS.nms)
 
     return avg_metric
 
