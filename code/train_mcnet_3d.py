@@ -55,11 +55,11 @@ snapshot_path = args.root_path + "model/{}_{}_{}_labeled/{}".format(args.dataset
 
 num_classes = 2
 if args.dataset_name == "LA":
-    patch_size = (192, 192, 64)
+    patch_size = (128, 128, 96)
     args.root_path = args.root_path+'data/LA'
     args.max_samples = 350
 elif args.dataset_name == "IXI":
-    patch_size = (192, 192, 64)
+    patch_size = (128, 128, 96)
     args.root_path = args.root_path+'../data/IXI_Bullitt_training_set'
     args.max_samples = 350
 elif args.dataset_name == "Pancreas_CT":
