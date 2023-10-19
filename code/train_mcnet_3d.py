@@ -52,7 +52,7 @@ parser.add_argument('--temperature', type=float, default=0.1, help='temperature 
 parser.add_argument('--lamda', type=float, default=1.0, help='weight to balance all losses')
 args = parser.parse_args()
 
-snapshot_path = args.root_path + "model/{}_{}_{}_labeled/{}".format(args.dataset_name, args.exp, args.labelnum, args.model)
+snapshot_path = "../"+ "model/{}_{}_{}_labeled/{}".format(args.dataset_name, args.exp, args.labelnum, args.model)
 
 num_classes = 2
 if args.dataset_name == "LA":
