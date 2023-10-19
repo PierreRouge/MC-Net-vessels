@@ -41,6 +41,7 @@ parser.add_argument('--batch_size', type=int, default=4, help='batch_size of lab
 parser.add_argument('--base_lr', type=float,  default=0.01, help='maximum epoch number to train')
 parser.add_argument('--deterministic', type=int,  default=1, help='whether use deterministic training')
 parser.add_argument('--labelnum', type=int,  default=34, help='trained samples')
+parser.add_argument('--patch_size', nargs='+', type=int, default=[128, 128, 128], help='Patch _size')
 parser.add_argument('--seed', type=int,  default=1337, help='random seed')
 parser.add_argument('--gpu', type=str,  default='0', help='GPU to use')
 parser.add_argument('--consistency', type=float, default=1, help='consistency_weight')
@@ -55,17 +56,14 @@ snapshot_path = args.root_path + "model/{}_{}_{}_labeled/{}".format(args.dataset
 
 num_classes = 2
 if args.dataset_name == "LA":
-    patch_size = (128, 128, 96)
-    args.root_path = args.root_path+'data/LA'
-    args.max_samples = 350
+    patch_size = args.patch_size
 elif args.dataset_name == "IXI":
-    patch_size = (128, 128, 96)
-    args.root_path = args.root_path+'../data/IXI_Bullitt_training_set'
-    args.max_samples = 350
+    patch_size = args.patch_size
+elif args.dataset_name == "Bullitt":
+    patch_size = args.patch_size
 elif args.dataset_name == "Pancreas_CT":
-    patch_size = (96, 96, 96)
+    patch_size = args.patch_size
     args.root_path = args.root_path+'data/Pancreas'
-    args.max_samples = 62
 train_data_path = args.root_path
 
 os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
@@ -114,6 +112,13 @@ if __name__ == "__main__":
                             ]))
     elif args.dataset_name == "Pancreas_CT":
         db_train = Pancreas(base_dir=train_data_path,
+                       split='train',
+                       transform = transforms.Compose([
+                          RandomCrop(patch_size),
+                          ToTensor(),
+                          ]))
+    elif args.dataset_name == "Bullitt":
+        db_train = LAHeart(base_dir=train_data_path,
                        split='train',
                        transform = transforms.Compose([
                           RandomCrop(patch_size),
@@ -229,6 +234,8 @@ if __name__ == "__main__":
                     dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=16, stride_z=16, dataset_name = 'Pancreas_CT')
                 elif args.dataset_name =="IXI":
                     dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=18, stride_z=4, dataset_name = 'IXI')
+                elif args.dataset_name =="Bullitt":
+                    dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=18, stride_z=4, dataset_name = 'Bullitt')
                 if dice_sample > best_dice:
                     best_dice = dice_sample
                     save_mode_path = os.path.join(snapshot_path,  'iter_{}_dice_{}.pth'.format(iter_num, best_dice))
