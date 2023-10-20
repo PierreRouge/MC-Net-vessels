@@ -23,25 +23,25 @@ test_save_path = "../model/{}_{}_{}_labeled/{}_predictions/".format(FLAGS.datase
 
 num_classes = 2
 if FLAGS.dataset_name == "LA":
-    patch_size = FLAGS.patch_size
+    patch_size = tuple(FLAGS.patch_size)
     with open(FLAGS.root_path + '/../test.list', 'r') as f:
         image_list = f.readlines()
     image_list = [FLAGS.root_path + "/2018LA_Seg_Training Set/" + item.replace('\n', '') + "/mra_norm.h5" for item in image_list]
     
 elif FLAGS.dataset_name == "IXI":
-    patch_size = FLAGS.patch_size
+    patch_size = tuple(FLAGS.patch_size)
     with open(FLAGS.root_path + '/../test.list', 'r') as f:
         image_list = f.readlines()
     image_list = [FLAGS.root_path + "/IXI_Bullitt_training_set/" + item.replace('\n', '') + "/mra_norm.h5" for item in image_list]
 
 elif FLAGS.dataset_name == "Bullitt":
-    patch_size = FLAGS.patch_size
+    patch_size = tuple(FLAGS.patch_size)
     with open(FLAGS.root_path + '/../test.list', 'r') as f:
         image_list = f.readlines()
     image_list = [FLAGS.root_path + "/" + item.replace('\n', '') + "/mra_norm.h5" for item in image_list]
     
 elif FLAGS.dataset_name == "Pancreas_CT":
-    patch_size = FLAGS.patch_size
+    patch_size = tuple(FLAGS.patch_size)
     FLAGS.root_path = FLAGS.root_path + 'data/Pancreas'
     with open(FLAGS.root_path + '/../test.list', 'r') as f:
         image_list = f.readlines()
@@ -61,22 +61,22 @@ def test_calculate_metric():
 
     if FLAGS.dataset_name == "LA":
         avg_metric = test_all_case(FLAGS.model, 1, net, image_list, num_classes=num_classes,
-                        patch_size=FLAGS.patch_size, stride_xy=18, stride_z=4,
+                        patch_size=tuple(FLAGS.patch_size), stride_xy=18, stride_z=4,
                         save_result=True, test_save_path=test_save_path,
                         metric_detail=FLAGS.detail, nms=FLAGS.nms)
     elif FLAGS.dataset_name == "Pancreas_CT":
         avg_metric = test_all_case(FLAGS.model, 1, net, image_list, num_classes=num_classes,
-                        patch_size=FLAGS.patch_size, stride_xy=16, stride_z=16,
+                        patch_size=tuple(FLAGS.patch_size), stride_xy=16, stride_z=16,
                         save_result=True, test_save_path=test_save_path,
                         metric_detail=FLAGS.detail, nms=FLAGS.nms)
     elif FLAGS.dataset_name == "Bullitt":
         avg_metric = test_all_case(FLAGS.model, 1, net, image_list, num_classes=num_classes,
-                        patch_size=FLAGS.patch_size, stride_xy=16, stride_z=16,
+                        patch_size=tuple(FLAGS.patch_size), stride_xy=16, stride_z=16,
                         save_result=True, test_save_path=test_save_path,
                         metric_detail=FLAGS.detail, nms=FLAGS.nms)
     elif FLAGS.dataset_name == "IXI":
         avg_metric = test_all_case(FLAGS.model, 1, net, image_list, num_classes=num_classes,
-                        patch_size=FLAGS.patch_size, stride_xy=18, stride_z=4,
+                        patch_size=tuple(FLAGS.patch_size), stride_xy=18, stride_z=4,
                         save_result=True, test_save_path=test_save_path,
                         metric_detail=FLAGS.detail, nms=FLAGS.nms)
 
