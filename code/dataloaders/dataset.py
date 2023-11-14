@@ -111,7 +111,7 @@ class LAHeart(Dataset):
 
     def __getitem__(self, idx):
         image_name = self.image_list[idx]
-        h5f = h5py.File(self._base_dir + "/" + image_name + "/mra_norm.h5", 'r')
+        h5f = h5py.File(self._base_dir + "/" + image_name + "/data.h5", 'r')
         image = h5f['image'][:]
         label = h5f['label'][:]
         sample = {'image': image, 'label': label, 'image_name': image_name}
