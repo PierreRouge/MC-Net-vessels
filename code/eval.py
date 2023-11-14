@@ -104,7 +104,7 @@ prec_list = []
 sens_list = []
 for item in tqdm(listt):
     pred = nib.load(item)
-    gt = nib.load(item.replace('_pred', '_gt'))
+    gt = nib.load(item.replace('_pred.nii.gz', '_gt.nii.gz'))
     name = item.split('/')[-1]
     name = name.split('_')[0]
     
