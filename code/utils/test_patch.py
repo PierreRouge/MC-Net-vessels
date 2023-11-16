@@ -18,7 +18,7 @@ def var_all_case(model, num_classes, patch_size=(112, 112, 80), stride_xy=18, st
     if dataset_name == "LA":
         with open('../data/LA/test.list', 'r') as f:
             image_list = f.readlines()
-        image_list = ["../data/LA/2018LA_Seg_Training Set/" + item.replace('\n', '') + "/mra_norm.h5" for item in image_list]
+        image_list = ["../data/LA/2018LA_Seg_Training Set/" + item.replace('\n', '') + "/data.h5" for item in image_list]
     elif dataset_name == "Pancreas_CT":
         with open('./data/Pancreas/test.list', 'r') as f:
             image_list = f.readlines()
@@ -26,11 +26,11 @@ def var_all_case(model, num_classes, patch_size=(112, 112, 80), stride_xy=18, st
     elif dataset_name == "IXI":
         with open('../../data/IXI_training_set/test.list', 'r') as f:
             image_list = f.readlines()
-        image_list = ["../../data/IXI_Bullitt_training_set/" + item.replace('\n', '') + "/mra_norm.h5" for item in image_list]
+        image_list = ["../../data/IXI_Bullitt_training_set/" + item.replace('\n', '') + "/data.h5" for item in image_list]
     elif dataset_name == "Bullitt":
         with open('../../data/Bullitt_training_set/test.list', 'r') as f:
             image_list = f.readlines()
-        image_list = ["../../data/IXI_Bullitt_training_set/Patients/" + item.replace('\n', '') + "/mra_norm.h5" for item in image_list]
+        image_list = ["../../data/IXI_Bullitt_training_set/Patients/" + item.replace('\n', '') + "/data.h5" for item in image_list]
     loader = tqdm(image_list)
     total_dice = 0.0
     for image_path in loader:
