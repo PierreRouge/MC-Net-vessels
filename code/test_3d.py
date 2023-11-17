@@ -32,7 +32,7 @@ elif FLAGS.dataset_name == "IXI":
     patch_size = tuple(FLAGS.patch_size)
     with open(FLAGS.root_path + '/../test.list', 'r') as f:
         image_list = f.readlines()
-    image_list = [FLAGS.root_path + "/IXI_Bullitt_training_set/Patients/" + item.replace('\n', '') + "/data.h5" for item in image_list]
+    image_list = [FLAGS.root_path + "/IXI_training_set/Patients/" + item.replace('\n', '') + "/data.h5" for item in image_list]
 
 elif FLAGS.dataset_name == "Bullitt":
     patch_size = tuple(FLAGS.patch_size)
