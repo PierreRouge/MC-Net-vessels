@@ -40,6 +40,12 @@ elif FLAGS.dataset_name == "Bullitt":
         image_list = f.readlines()
     image_list = [FLAGS.root_path + "/" + item.replace('\n', '') + "/data.h5" for item in image_list]
     
+elif FLAGS.dataset_name == "Liver":
+    patch_size = tuple(FLAGS.patch_size)
+    with open(FLAGS.root_path + '/../test.list', 'r') as f:
+        image_list = f.readlines()
+    image_list = [FLAGS.root_path + "/" + item.replace('\n', '') + "/data.h5" for item in image_list]
+    
 elif FLAGS.dataset_name == "Pancreas_CT":
     patch_size = tuple(FLAGS.patch_size)
     FLAGS.root_path = FLAGS.root_path + 'data/Pancreas'
@@ -70,6 +76,11 @@ def test_calculate_metric():
                         save_result=True, test_save_path=test_save_path,
                         metric_detail=FLAGS.detail, nms=FLAGS.nms)
     elif FLAGS.dataset_name == "Bullitt":
+        avg_metric = test_all_case(FLAGS.model, 1, net, image_list, num_classes=num_classes,
+                        patch_size=tuple(FLAGS.patch_size), stride_xy=16, stride_z=16,
+                        save_result=True, test_save_path=test_save_path,
+                        metric_detail=FLAGS.detail, nms=FLAGS.nms)
+    elif FLAGS.dataset_name == "Liver":
         avg_metric = test_all_case(FLAGS.model, 1, net, image_list, num_classes=num_classes,
                         patch_size=tuple(FLAGS.patch_size), stride_xy=16, stride_z=16,
                         save_result=True, test_save_path=test_save_path,

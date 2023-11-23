@@ -61,6 +61,8 @@ elif args.dataset_name == "IXI":
     patch_size = args.patch_size
 elif args.dataset_name == "Bullitt":
     patch_size = args.patch_size
+elif args.dataset_name == "Liver":
+    patch_size = args.patch_size
 elif args.dataset_name == "Pancreas_CT":
     patch_size = args.patch_size
     args.root_path = args.root_path+'data/Pancreas'
@@ -111,6 +113,13 @@ if __name__ == "__main__":
                             ToTensor(),
                             ]))
     elif args.dataset_name == "Pancreas_CT":
+        db_train = Pancreas(base_dir=train_data_path,
+                       split='train',
+                       transform = transforms.Compose([
+                          RandomCrop(patch_size),
+                          ToTensor(),
+                          ]))
+    elif args.dataset_name == "Liver":
         db_train = Pancreas(base_dir=train_data_path,
                        split='train',
                        transform = transforms.Compose([
@@ -234,6 +243,8 @@ if __name__ == "__main__":
                     dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=16, stride_z=16, dataset_name = 'Pancreas_CT')
                 elif args.dataset_name =="IXI":
                     dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=18, stride_z=4, dataset_name = 'IXI')
+                elif args.dataset_name =="Liver":
+                    dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=18, stride_z=4, dataset_name = 'Liver')
                 elif args.dataset_name =="Bullitt":
                     dice_sample = test_patch.var_all_case(model, num_classes=num_classes, patch_size=patch_size, stride_xy=18, stride_z=4, dataset_name = 'Bullitt')
                 if dice_sample > best_dice:
