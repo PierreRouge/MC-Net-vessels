@@ -120,7 +120,7 @@ if __name__ == "__main__":
                           ToTensor(),
                           ]))
     elif args.dataset_name == "Liver":
-        db_train = Pancreas(base_dir=train_data_path,
+        db_train = LAHeart(base_dir=train_data_path,
                        split='train',
                        transform = transforms.Compose([
                           RandomCrop(patch_size),
