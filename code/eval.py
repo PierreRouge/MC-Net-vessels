@@ -22,6 +22,7 @@ from skimage.measure import label
 parser = argparse.ArgumentParser()
 parser.add_argument('--dir_inputs', type=str, default='../../../Thèse_Rougé_Pierre/res_semi_supervised/UA-MT/UA-MT-Bullitt_18_labeled_post', help='Path')
 parser.add_argument('--postprocessing', type=bool,  default=False, help='prostprocessing or not')
+parser.add_argument('--topo', type=bool, default=False, help='Compute topological metrics')
 
 args = parser.parse_args()
 
@@ -205,7 +206,10 @@ listt = glob(dir_inputs)
 
 exp = dir_inputs.split('/')[-2]
 res = open(dir_inputs.replace('/*_pred.nii.gz', '') + '/../res_' + exp + '.csv', 'w')
-fieldnames = ['Patient', 'Dice', 'clDice', 'Precision', 'Sensitivity', 'Euler Number error', 'B0 error', 'B1 error', 'B2 error']
+if args.topo:
+    fieldnames = ['Patient', 'Dice', 'clDice', 'Precision', 'Sensitivity', 'Euler Number error', 'B0 error', 'B1 error', 'B2 error']
+else:
+    fieldnames = ['Patient', 'Dice', 'clDice', 'Precision', 'Sensitivity']
 writer = csv.DictWriter(res, fieldnames=fieldnames)
 writer.writeheader()
 
@@ -233,19 +237,40 @@ for item in tqdm(listt):
     dice = dice_numpy(gt, pred)
     cldice = cldice_numpy(gt, pred)
     sens, spec, prec = sensitivity_specificity_precision(gt, pred)
-    euler_number_error, _, _ = euler_number_error_numpy(gt, pred)
-    b0_error, _, _ = b0_error_numpy(gt, pred)
-    b1_error, _, _ = b1_error_numpy(gt, pred)
-    b2_error, _, _ = b2_error_numpy(gt, pred)
+    
+    if args.topo:
+        euler_number_error, _, _ = euler_number_error_numpy(gt, pred)
+        b0_error, _, _ = b0_error_numpy(gt, pred)
+        b1_error, _, _ = b1_error_numpy(gt, pred)
+        b2_error, _, _ = b2_error_numpy(gt, pred)
     
     dice_list.append(dice)
     cldice_list.append(cldice)
     prec_list.append(prec)
     sens_list.append(sens)
-    euler_number_list.append(euler_number_error)
-    b0_list.append(b0_error)
-    b1_list.append(b1_error)
-    b2_list.append(b2_error)
+    
+    if args.topo:
+        euler_number_list.append(euler_number_error)
+        b0_list.append(b0_error)
+        b1_list.append(b1_error)
+        b2_list.append(b2_error)
+    
+        dict_csv = {'Patient': name,
+                    'Dice': dice,
+                    'clDice': cldice,
+                    'Precision': prec,
+                    'Sensitivity': sens,
+                    "Euler Number error": euler_number_error,
+                    "B0 error": b0_error,
+                    "B1 error": b1_error,
+                    "B2 error": b2_error}
+    else:
+        dict_csv = {'Patient': name,
+                    'Dice': dice,
+                    'clDice': cldice,
+                    'Precision': prec,
+                    'Sensitivity': sens,
+                    }
     
     dict_csv = {'Patient': name,
                 'Dice': dice,
@@ -263,30 +288,48 @@ for item in tqdm(listt):
     print()
     print(f"Dice:{dice}")
     
-dict_csv = {'Patient': "Mean",
-            'Dice': np.mean(dice_list),
-            'clDice': np.mean(cldice_list),
-            'Precision': np.mean(prec_list),
-            'Sensitivity': np.mean(sens_list),
-            "Euler Number error": np.mean(euler_number_list),
-            "B0 error": np.mean(b0_list),
-            "B1 error": np.mean(b1_list),
-            "B2 error": np.mean(b2_list),
-            }
-
-writer.writerow(dict_csv)
-
-dict_csv = {'Patient': "Std",
-            'Dice': np.std(dice_list),
-            'clDice': np.std(cldice_list),
-            'Precision': np.std(prec_list),
-            'Sensitivity': np.std(sens_list),
-            "Euler Number error": np.std(euler_number_list),
-            "B0 error": np.std(b0_list),
-            "B1 error": np.std(b1_list),
-            "B2 error": np.std(b2_list),}
-
-writer.writerow(dict_csv)
+if args.topo:
+    dict_csv = {'Patient': "Mean",
+                'Dice': np.mean(dice_list),
+                'clDice': np.mean(cldice_list),
+                'Precision': np.mean(prec_list),
+                'Sensitivity': np.mean(sens_list),
+                "Euler Number error": np.mean(euler_number_list),
+                "B0 error": np.mean(b0_list),
+                "B1 error": np.mean(b1_list),
+                "B2 error": np.mean(b2_list),
+                }
+    
+    writer.writerow(dict_csv)
+    
+    dict_csv = {'Patient': "Std",
+                'Dice': np.std(dice_list),
+                'clDice': np.std(cldice_list),
+                'Precision': np.std(prec_list),
+                'Sensitivity': np.std(sens_list),
+                "Euler Number error": np.std(euler_number_list),
+                "B0 error": np.std(b0_list),
+                "B1 error": np.std(b1_list),
+                "B2 error": np.std(b2_list),}
+    
+    writer.writerow(dict_csv)
+    
+else:
+    dict_csv = {'Patient': "Mean",
+                'Dice': np.mean(dice_list),
+                'clDice': np.mean(cldice_list),
+                'Precision': np.mean(prec_list),
+                'Sensitivity': np.mean(sens_list)}
+    
+    writer.writerow(dict_csv)
+    
+    dict_csv = {'Patient': "Std",
+                'Dice': np.std(dice_list),
+                'clDice': np.std(cldice_list),
+                'Precision': np.std(prec_list),
+                'Sensitivity': np.std(sens_list)}
+    
+    writer.writerow(dict_csv)
    
 print()
 print('Moyenne Dice')
