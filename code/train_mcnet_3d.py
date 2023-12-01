@@ -16,6 +16,8 @@ import torch.backends.cudnn as cudnn
 from torch.utils.data import DataLoader
 from torchvision.utils import make_grid
 
+from sklearn.model_selection import train_test_split
+
 from utils import ramps, losses, metrics, test_patch
 from dataloaders.dataset import *
 from networks.net_factory import net_factory
@@ -41,6 +43,8 @@ parser.add_argument('--batch_size', type=int, default=4, help='batch_size of lab
 parser.add_argument('--base_lr', type=float,  default=0.01, help='maximum epoch number to train')
 parser.add_argument('--deterministic', type=int,  default=1, help='whether use deterministic training')
 parser.add_argument('--labelnum', type=int,  default=34, help='trained samples')
+parser.add_argument('--random_state', type=int,  default=1, help='Random state for data splitting')
+parser.add_argument('--niter_epoch', type=int,  default=150, help='Number of iterations defining an epoch (for sigmoid rampup)')
 parser.add_argument('--patch_size', nargs='+', type=int, default=[128, 128, 128], help='Patch _size')
 parser.add_argument('--seed', type=int,  default=1337, help='random seed')
 parser.add_argument('--gpu', type=str,  default='0', help='GPU to use')
@@ -133,9 +137,10 @@ if __name__ == "__main__":
                           RandomCrop(patch_size),
                           ToTensor(),
                           ]))
-    labelnum = args.labelnum  
-    labeled_idxs = list(range(labelnum))
-    unlabeled_idxs = list(range(labelnum, args.max_samples))
+    
+    idxs = np.arange(0, args.maxsamples)
+    labeled_idxs, unlabeled_idxs = train_test_split(idxs, train_size=args.labelnum, random_state=args.random_state)
+    
     batch_sampler = TwoStreamBatchSampler(labeled_idxs, unlabeled_idxs, args.batch_size, args.batch_size-labeled_bs)
     def worker_init_fn(worker_id):
         random.seed(args.seed+worker_id)
