@@ -140,7 +140,7 @@ if __name__ == "__main__":
                           ]))
     
     idxs = np.arange(0, args.nlabeledsamples)
-    unlabeled_idxs_1 = list(range(args.nlabeledsamples, args.maxsamples))
+    unlabeled_idxs_1 = list(range(args.nlabeledsamples, args.max_samples))
     labeled_idxs, unlabeled_idxs_2 = train_test_split(idxs, train_size=args.labelnum, random_state=args.random_state)
     
     unlabeled_idxs = list(unlabeled_idxs_2) + unlabeled_idxs_1
