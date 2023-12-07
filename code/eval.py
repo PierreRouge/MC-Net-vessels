@@ -272,16 +272,6 @@ for item in tqdm(listt):
                     'Sensitivity': sens,
                     }
     
-    dict_csv = {'Patient': name,
-                'Dice': dice,
-                'clDice': cldice,
-                'Precision': prec,
-                'Sensitivity': sens,
-                "Euler Number error": euler_number_error,
-                "B0 error": b0_error,
-                "B1 error": b1_error,
-                "B2 error": b2_error}
-    
     writer.writerow(dict_csv)
     
     print()
